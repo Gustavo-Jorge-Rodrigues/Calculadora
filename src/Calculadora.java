@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class  Calculadora {
 
@@ -7,20 +8,35 @@ public class  Calculadora {
 
         System.out.println("CALCULADORA DO EPSTEIN");
 
-        System.out.print("Digite o primeiro número: ");
-        double numero1 = leitor.nextDouble();
+        double numero1 = lerNumero(leitor, "Digite o primeiro número: ");
 
         System.out.print("Digite a operação (+, -, *, /): ");
         String operacao = leitor.next();
 
-        System.out.print("Digite o segundo número: ");
-        double numero2 = leitor.nextDouble();
+        double numero2 = lerNumero(leitor, "Digite o segundo número: ");
 
         double resultado = calcular(numero1, numero2, operacao);
 
         System.out.println("Resultado: " + resultado);
 
         leitor.close();
+    }
+
+    public static double lerNumero(Scanner leitor, String mensagem) {
+        double numero = 0;
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            try {
+                System.out.print(mensagem);
+                numero = leitor.nextDouble();
+                entradaValida = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Digite um número do tipo double válido!");
+                leitor.nextLine();
+            }
+        }
+        return numero;
     }
 
     public static double calcular(double a, double b, String operacao) {
