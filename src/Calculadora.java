@@ -6,7 +6,7 @@ public class  Calculadora {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
 
-        System.out.println("CALCULADORA DO EPSTEIN");
+        System.out.println("------------CALCULADORA STARK-------------");
 
         double numero1 = lerNumero(leitor, "Digite o primeiro número: ");
 
