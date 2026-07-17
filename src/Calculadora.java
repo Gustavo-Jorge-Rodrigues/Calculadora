@@ -73,29 +73,20 @@ public class Calculadora {
 
     // Executa o cálculo com base na operação escolhida
     public static double calcular(double a, double b, String operacao) {
-        switch (operacao) {
-            case "+":
-                return a + b;
-
-            case "-":
-                return a - b;
-
-            case "*":
-                return a * b;
-
-            case "/":
+        return switch (operacao) {
+            case "+" -> a + b;
+            case "-" -> a - b;
+            case "*" -> a * b;
+            case "/" -> {
                 if (b == 0) {
                     System.out.println("Erro: divisão por zero!");
-                    return 0;
+                    yield 0;
                 }
-                return a / b;
-
-            case "%":
-                return (a * b) / 100;
-
-            default:
-                return 0; // nunca deve acontecer, pois já validámos antes
-        }
+                yield a / b;
+            }
+            case "%" -> (a * b) / 100;
+            default -> 0; // nunca deve acontecer, pois já validámos antes
+        };
     }
 }
 
