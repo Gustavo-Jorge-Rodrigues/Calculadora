@@ -38,14 +38,14 @@ public class Calculadora {
         return numero;
     }
 
-    // Lê a operação desejada, repetindo até ser uma das 5 válidas
+    // Lê a operação desejada, repetindo até ser uma das operações válidas
     public static String lerOperacao(Scanner leitor) {
         String operacao = "";
         boolean entradaValida = false;
 
         while (!entradaValida) {
             try {
-                System.out.print("Digite a operação (+, -, *, /, %): ");
+                System.out.print("Digite a operação (+, -, *, /, %, ^): ");
                 operacao = leitor.next();
                 validarOperacao(operacao);
                 entradaValida = true;
@@ -57,7 +57,7 @@ public class Calculadora {
         return operacao;
     }
 
-    // Verifica se a operação é uma das 5 permitidas, senão lança a exceção
+    // Verifica se a operação é uma das permitidas, senão lança a exceção
     public static void validarOperacao(String operacao) throws OperacaoInvalidaException {
         switch (operacao) {
             case "+":
@@ -65,28 +65,41 @@ public class Calculadora {
             case "*":
             case "/":
             case "%":
+            case "^":
                 return;
             default:
-                throw new OperacaoInvalidaException("Erro: operação inválida! Use apenas +, -, *, / ou %.");
+                throw new OperacaoInvalidaException("Erro: operação inválida! Use apenas +, -, *, /, % ou ^.");
         }
     }
 
     // Executa o cálculo com base na operação escolhida
     public static double calcular(double a, double b, String operacao) {
-        return switch (operacao) {
-            case "+" -> a + b;
-            case "-" -> a - b;
-            case "*" -> a * b;
-            case "/" -> {
+        switch (operacao) {
+            case "+":
+                return a + b;
+
+            case "-":
+                return a - b;
+
+            case "*":
+                return a * b;
+
+            case "/":
                 if (b == 0) {
                     System.out.println("Erro: divisão por zero!");
-                    yield 0;
+                    return 0;
                 }
-                yield a / b;
-            }
-            case "%" -> (a * b) / 100;
-            default -> 0; // nunca deve acontecer, pois já validámos antes
-        };
+                return a / b;
+
+            case "%":
+                return (a * b) / 100;
+
+            case "^":
+                return Math.pow(a, b);
+
+            default:
+                return 0; // nunca deve acontecer, pois já validámos antes
+        }
     }
 }
 
