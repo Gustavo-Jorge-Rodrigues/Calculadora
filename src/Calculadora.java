@@ -38,10 +38,37 @@ public class Calculadora {
         return numero;
     }
 
-    // Lê a operação desejada
+    // Lê a operação desejada, repetindo até ser uma das 5 válidas
     public static String lerOperacao(Scanner leitor) {
-        System.out.print("Digite a operação (+, -, *, /, %): ");
-        return leitor.next();
+        String operacao = "";
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            try {
+                System.out.print("Digite a operação (+, -, *, /, %): ");
+                operacao = leitor.next();
+                validarOperacao(operacao);
+                entradaValida = true;
+            } catch (OperacaoInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return operacao;
+    }
+
+    // Verifica se a operação é uma das 5 permitidas, senão lança a exceção
+    public static void validarOperacao(String operacao) throws OperacaoInvalidaException {
+        switch (operacao) {
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+                return;
+            default:
+                throw new OperacaoInvalidaException("Erro: operação inválida! Use apenas +, -, *, / ou %.");
+        }
     }
 
     // Executa o cálculo com base na operação escolhida
@@ -67,8 +94,14 @@ public class Calculadora {
                 return (a * b) / 100;
 
             default:
-                System.out.println("Operação inválida!");
-                return 0;
+                return 0; // nunca deve acontecer, pois já validámos antes
         }
+    }
+}
+
+// Exceção personalizada para operações inválidas
+class OperacaoInvalidaException extends Exception {
+    public OperacaoInvalidaException(String mensagem) {
+        super(mensagem);
     }
 }
