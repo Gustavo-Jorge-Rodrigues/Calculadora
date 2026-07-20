@@ -45,7 +45,7 @@ public class Calculadora {
 
         while (!entradaValida) {
             try {
-                System.out.print("Digite a operação (+, -, *, /, %, ^): ");
+                System.out.print("Digite a operação (+, -, *, /, %, ^, √): ");
                 operacao = leitor.next();
                 validarOperacao(operacao);
                 entradaValida = true;
@@ -66,9 +66,10 @@ public class Calculadora {
             case "/":
             case "%":
             case "^":
+            case "√":
                 return;
             default:
-                throw new OperacaoInvalidaException("Erro: operação inválida! Use apenas +, -, *, /, % ou ^.");
+                throw new OperacaoInvalidaException("Erro: operação inválida! Use apenas +, -, *, /, %, ^ ou √.");
         }
     }
 
@@ -96,6 +97,13 @@ public class Calculadora {
 
             case "^":
                 return Math.pow(a, b);
+
+            case "√":
+                if (a < 0) {
+                    System.out.println("Erro: não é possível calcular raiz de número negativo!");
+                    return 0;
+                }
+                return Math.sqrt(a);
 
             default:
                 return 0; // nunca deve acontecer, pois já validámos antes
